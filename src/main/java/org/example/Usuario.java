@@ -11,7 +11,7 @@ public class Usuario {
     private Cita[] citas;
 
     public Usuario(String nombre, String numeroIdentificacion, String telefono, String correoElectronico, Cita[] citas) {
-        this.id = "U-"+(new Random().nextInt(9000)+1000);
+        this.id = "U-"+String.format("%04d",new Random().nextInt(10000));
         this.nombre = nombre;
         this.numeroIdentificacion = numeroIdentificacion;
         this.telefono = telefono;

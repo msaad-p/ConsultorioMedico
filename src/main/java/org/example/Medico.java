@@ -11,7 +11,7 @@ public class Medico {
     private Cita[] citas;
 
     public Medico(String nombre, String numeroIdentificacion, String telefono, String correoElectronico, Cita[] citas) {
-        this.id = "M-"+(new Random().nextInt(9000)+1000);
+        this.id = "M-"+String.format("%04d",new Random().nextInt(10000));
         this.nombre = nombre;
         this.numeroIdentificacion = numeroIdentificacion;
         this.telefono = telefono;
