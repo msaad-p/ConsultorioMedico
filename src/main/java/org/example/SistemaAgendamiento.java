@@ -5,4 +5,6 @@ public class SistemaAgendamiento {
     private Medico[] medicos;
     private Cita[] citas;
 
+    public SistemaAgendamiento() {
+    }
 }

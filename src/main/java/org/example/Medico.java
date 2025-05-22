@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Random;
+
 public class Medico {
     private String id;
     private String nombre;
@@ -8,4 +10,12 @@ public class Medico {
     private String correoElectronico;
     private Cita[] citas;
 
+    public Medico(String nombre, String numeroIdentificacion, String telefono, String correoElectronico, Cita[] citas) {
+        this.id = "M-"+(new Random().nextInt(9000)+1000);
+        this.nombre = nombre;
+        this.numeroIdentificacion = numeroIdentificacion;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.citas = citas;
+    }
 }
