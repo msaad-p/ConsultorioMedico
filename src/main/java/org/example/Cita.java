@@ -19,4 +19,41 @@ public class Cita {
         this.medico = medico;
     }
 
+
+    
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Time getHora() {
+        return hora;
+    }
+
+    public void setHora(Time hora) {
+        this.hora = hora;
+    }
+
+    public Usuario getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Usuario paciente) {
+        this.paciente = paciente;
+    }
+
+    public Medico getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

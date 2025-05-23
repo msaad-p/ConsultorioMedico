@@ -10,4 +10,30 @@ public class SistemaAgendamiento {
 
     public SistemaAgendamiento() {
     }
+
+
+
+    public Usuario[] getUsuarios() {
+        return usuarios;
+    }
+
+    public Medico[] getMedicos() {
+        return medicos;
+    }
+
+    public Cita[] getCitas() {
+        return citas;
+    }
+
+    public int getCantidadUsuarios() {
+        return cantidadUsuarios;
+    }
+
+    public int getCantidadMedicos() {
+        return cantidadMedicos;
+    }
+
+    public int getCantidadCitas() {
+        return cantidadCitas;
+    }
 }
