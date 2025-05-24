@@ -20,7 +20,28 @@ public class Usuario {
         this.citas = citas;
     }
 
-
+    private void  mostrarCitas() {
+    /*
+     * Mostrar todas la citas de forma local del usuario.
+     * 
+     * Recorre todas las citas y los imprime en el formato:
+     * === Citas Global ===
+     * "1.|Id: |Fecha:  |Hora:  |Paciente:  |Médico:
+     * "2.|Id: |Fecha:  |Hora:  |Paciente:  |Médico:
+     *  .
+     *  .
+     *  .
+     * ======================"
+     * 
+     * Input: Nada.
+     * Output: Si se encuenta retorna -1, si se encuentra null retorna 1 y sino se encuentra retorna -1
+     */
+        System.out.println("=== Citas Global ===");
+        for (int i = 0; i < cantidadCitasUsuario; i++) {
+        System.out.println((i+1) +".|Id:"+ citas[i].getId() +"|Fecha:"+ citas[i].getFecha() +"|Hora:"+ citas[i].getHora() +"|Paciente:"+ citas[i].getPaciente().getNombre() +"|Médico:"+ citas[i].getMedico().getNombre());
+        }
+        System.out.println("======================");
+    }
 
     public String getNombre() {
         return nombre;

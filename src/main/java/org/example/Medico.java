@@ -1,6 +1,9 @@
 package org.example;
 
+import java.util.Date;
 import java.util.Random;
+import java.sql.Time;
+import java.util.Calendar;
 
 public class Medico {
     private String id;
@@ -20,8 +23,62 @@ public class Medico {
         this.citas = citas;
     }
 
+    private void  mostrarCitas() {
+    /*
+     * Mostrar todas la citas de forma local del médico.
+     * 
+     * Recorre todas las citas y los imprime en el formato:
+     * === Citas Global ===
+     * "1.|Id: |Fecha:  |Hora:  |Paciente:  |Médico:
+     * "2.|Id: |Fecha:  |Hora:  |Paciente:  |Médico:
+     *  .
+     *  .
+     *  .
+     * ======================"
+     * 
+     * Input: Nada.
+     * Output: Si se encuenta retorna -1, si se encuentra null retorna 1 y sino se encuentra retorna -1
+     */
+        System.out.println("=== Citas Global ===");
+        for (int i = 0; i < cantidadCitasMedico; i++) {
+        System.out.println((i+1) +".|Id:"+ citas[i].getId() +"|Fecha:"+ citas[i].getFecha() +"|Hora:"+ citas[i].getHora() +"|Paciente:"+ citas[i].getPaciente().getNombre() +"|Médico:"+ citas[i].getMedico().getNombre());
+        }
+        System.out.println("======================");
+    }
 
+    private int verificarDisponibilidad(Date fecha,Time hora) {
+    /* 
+    La descripción para el lector
+     */
+        for (int i = 0; i < cantidadCitasMedico; i++) {
+            if(citas[i] == null){
+                break;
+            }
+        Calendar citaEvaluarInicio = Calendar.getInstance();
+        citaEvaluarInicio.setTime(citas[i].getFecha());
+        citaEvaluarInicio.set(Calendar.HOUR_OF_DAY, citas[i].getHora().getHours());
+        citaEvaluarInicio.set(Calendar.MINUTE, citas[i].getHora().getMinutes());
+        citaEvaluarInicio.set(Calendar.SECOND, citas[i].getHora().getSeconds());
+        citaEvaluarInicio.set(Calendar.MILLISECOND, 0);
+        Date fechaHoraInicio = citaEvaluarInicio.getTime();
 
+        Calendar citaDada = Calendar.getInstance();
+        citaDada.setTime(fecha);
+        citaDada.set(Calendar.HOUR_OF_DAY, hora.getHours());
+        citaDada.set(Calendar.MINUTE, hora.getMinutes());
+        citaDada.set(Calendar.SECOND, hora.getSeconds());
+        citaDada.set(Calendar.MILLISECOND, 0);
+        Date fechaHoraComparar = citaDada.getTime();
+        Calendar citaEvaluarFinal = (Calendar) citaEvaluarInicio.clone();
+        citaEvaluarFinal.add(Calendar.HOUR_OF_DAY, 1);
+        Date fechaHoraLimite = citaEvaluarFinal.getTime();
+        if (!fechaHoraComparar.before(fechaHoraInicio) && fechaHoraComparar.before(fechaHoraLimite)){ /*Niega el primer before para que sea after xd */
+        return 1;
+        }
+    }
+    return -1;
+            
+    }
     public String getNombre() {
         return nombre;
     }
