@@ -15,12 +15,12 @@ public class SistemaAgendamiento {
 
     private int buscarUsuario(String idBuscar) {
     /*
-     * Retorna un usuario del arreglo de usuarios según su ID.
-     * 
+     * Retorna la posición de un usuario del arreglo de usuarios según su ID.
+     *
      * Recorre el arreglo usuarios hasta encontrar igualdad de IDs.
-     * 
+     *
      * Input: idBuscar El ID del Usuario que se desea buscar.
-     * Output: El usuario si fue encontrada; -1 si no se encontró ningún usuario con ese ID.
+     * Output: La posición del usuario si fue encontrado; -1 si no se encontró ningún usuario con ese ID.
      */
         for (int i = 0; i < cantidadUsuarios; i++) {
             if (usuarios[i] != null && Objects.equals(usuarios[i].getId(), idBuscar)) {
@@ -32,12 +32,12 @@ public class SistemaAgendamiento {
 
     private int buscarMedico(String idBuscar) {
     /*
-     * Retorna un médico del arreglo de médicos según su ID.
-     * 
-     * Recorre el arreglo medicos hasta encontrar igualdad de IDs.
-     * 
+     * Retorna la posición de un médico del arreglo de médicos según su ID.
+     *
+     * Recorre el arreglo médicos hasta encontrar igualdad de IDs.
+     *
      * Input: idBuscar El ID del médico que se desea buscar.
-     * Output: El médico si fue encontrada; -1 si no se encontró ningún medico con ese ID.
+     * Output: La posición del médico si fue encontrado; -1 si no se encontró ningún medico con ese ID.
      */
         for (int i = 0; i < cantidadMedicos; i++) {
             if (medicos[i] != null && Objects.equals(medicos[i].getId(), idBuscar)) {
@@ -49,12 +49,12 @@ public class SistemaAgendamiento {
 
     private int buscarCita(String idBuscar) {
     /*
-     * Retorna una cita del arreglo de citas según su ID.
-     * 
+     * Retorna la posición de una cita del arreglo de citas según su ID.
+     *
      * Recorre el arreglo citas hasta encontrar igualdad de IDs.
-     * 
+     *
      * Input: idBuscar El ID de la cita que se desea buscar.
-     * Output: La cita si fue encontrada; -1 si no se encontró ninguna cita con ese ID.
+     * Output: La posición de la cita si fue encontrada; -1 si no se encontró ninguna cita con ese ID.
      */
         for (int i = 0; i < cantidadCitas; i++) {
             if (citas[i] != null && Objects.equals(citas[i].getId(), idBuscar)) {
@@ -64,140 +64,157 @@ public class SistemaAgendamiento {
         return -1;
     }
 
-    private int eliminarCita(String idBuscar) {
+    private boolean eliminarCita(String idBuscar) {
     /*
      * Elimina una cita del arreglo de citas según su ID.
-     * 
-     * Busca la cita con el ID especificado. Si se encuentra:
+     *
+     * Busca la posición de la cita con el ID especificado. Si se encuentra:
      * - Se elimina desplazando todas las citas posteriores una posición a la izquierda.
      * - La última posición ocupada se establece en null para evitar duplicados.
-     * 
+     *
      * Input: idBuscar El ID de la cita que se desea eliminar.
-     * Output: 1 si la cita fue encontrada y eliminada; -1 si no se encontró ninguna cita con ese ID.
+     * Output: true si la cita fue encontrada y eliminada; false si no se encontró ninguna cita con ese ID.
      */
-        for (int i = 0; i < cantidadCitas; i++) {
-            if (citas[i] != null && Objects.equals(citas[i].getId(), idBuscar)) {
-                for (int j = i; j < (cantidadCitas-1); j++ ){
-                    citas[i] = citas[i+1];
-                }
-                citas[cantidadCitas-1] = null;
-                cantidadCitas--;
-                return 1;
-            }
+        int posicionEliminar = buscarCita(idBuscar);
+        if (posicionEliminar == -1) {
+            return false;
         }
-        return -1;
+        for (int i = posicionEliminar; i < (cantidadCitas-1); i++ ){
+                citas[i] = citas[i+1];
+            }
+            citas[cantidadCitas-1] = null;
+            cantidadCitas--;
+            return true;
     }
 
-    private int agregarUsuario(Usuario usuario) {
+
+    private boolean agregarUsuario(Usuario usuario) {
     /*
-     * Agrega un usuario del arreglo de usuario dado un usuario.
+     * Agrega un usuario al arreglo de usuario dado un usuario.
      * 
      * Busca el usuario con el ID. 
      * Si se encuentra:
      * -Ya existe este usuario
-     * Si se encuentra null:
-     * Agrega al usuario a ese indice y aumenta la cantida de usuarios
-     * Si no se encuenta:
+     * Si el largo del arreglo permite ingresar un usuario:
+     * Agrega al usuario a ese índice y aumenta la cantidad de usuarios
+     * Si el largo del arreglo no lo permite:
      * Hay máximo de usuarios
      * 
      * Input: Instancia del usuario.
-     * Output: Si se encuenta retorna -1, si se encuentra null retorna 1 y sino se encuentra retorna -1
+     * Output: Si se encuentra en el array retorna false, si hay espacio retorna true y sino retorna false.
      */
-        String indice = usuario.getId();
-        for (int i = 0; i < cantidadUsuarios; i++) {
-            if (Objects.equals(usuarios[i].getId(),indice)) { /*Ya existe el usuario */
-                return -1;
-            }
-            else if(usuarios[i] == null){ /*Se encontró espacio para nuevo usuario */
-                usuarios[i] = null;
-                cantidadUsuarios++;
-            }
+        if(buscarUsuario(usuario.getId())!=-1){
+            return false; /*Ya existe el usuario */
         }
-        return -1; /*No hay espacio para más usuarios */
+        if(cantidadUsuarios<usuarios.length){
+            usuarios[cantidadUsuarios]=usuario; /*Se encontró espacio para nuevo usuario */
+            cantidadUsuarios++;
+            return true;
+        }
+        return false; /*No hay espacio para más usuarios */
     }
 
-    private int agregarMedico(Medico medico) {
+    private boolean agregarMedico(Medico medico) {
     /*
-     * Agrega un medico del arreglo de medico dado un medico.
-     * 
-     * Busca el medico con el ID. 
+     * Agrega un médico al arreglo de médicos dado un médico.
+     * Busca el médico con el ID.
      * Si se encuentra:
-     * -Ya existe este medico
-     * Si se encuentra null:
-     * Agrega al medico a ese indice y aumenta la cantida de medicos
-     * Si no se encuenta:
-     * Hay máximo de medicos
-     * 
-     * Input: Instancia del medico.
-     * Output: Si se encuenta retorna -1, si se encuentra null retorna 1 y sino se encuentra retorna -1
+     * -Ya existe este médico
+     * Si el largo del arreglo permite ingresar un médico:
+     * Agrega al médico a ese índice y aumenta la cantidad de médicos
+     * Si el largo del arreglo no lo permite:
+     * Hay máximo de médicos
+     * Input: Instancia del médico.
+     * Output: Si se encuentra en el array retorna false, si hay espacio retorna true y sino retorna false.
      */
-        String indice = medico.getId();
-        for (int i = 0; i < cantidadMedicos; i++) {
-            if (Objects.equals(medicos[i].getId(),indice)) { /*Ya existe el médico */
-                return -1;
-            }
-            else if(medicos[i] == null){ /*Se encontró espacio para nuevo médico */
-                medicos[i] = null;
-                cantidadMedicos++;
-                return 1;
-            }
+        if(buscarMedico(medico.getId())!=-1){
+            return false; /*Ya existe el médico */
         }
-        return -1; /*No hay espacio para más médicos */
+        if(cantidadMedicos<medicos.length){
+            medicos[cantidadMedicos]=medico; /*Se encontró espacio para nuevo médico */
+            cantidadMedicos++;
+            return true;
+        }
+        return false; /*No hay espacio para más médicos */
     }
 
-    private int agregarCita(Cita cita) {
-    /*
-     * Agrega un cita del arreglo de cita dado un cita.
-     * 
-     * Busca el cita con el ID. 
-     * Si se encuentra:
-     * -Ya existe este cita.
-     * Si se encuentra null:
-     * Agrega al citas a ese indice y aumenta la cantida de citas.
-     * Si no se encuenta:
-     * Hay máximo de citas.
-     * 
-     * Input: Instancia de la cita.
-     * Output: Si se encuenta retorna -1, si se encuentra null retorna 1 y sino se encuentra retorna -1
-     */
-        String indice = cita.getId();
-        for (int i = 0; i < cantidadCitas; i++) {
-            if (Objects.equals(citas[i].getId(),indice)) { /*Ya existe el cita */
-                return -1;
-            }
-            else if(citas[i] == null){ /*Se encontró espacio para nuevo cita */
-                citas[i] = null;
-                cantidadCitas++;
-                return 1;
-            }
+    private boolean agregarCita(Cita cita) {
+        /*
+         * Agrega una cita al arreglo de citas dado una cita.
+         * Busca la cita con el ID.
+         * Si se encuentra:
+         * -Ya existe esta cita
+         * Se hacen las validaciones de existencia del médico y el usuario.
+         * Si alguno no existe en en sistema, retorna false.
+         * Se verifica que en sus arrays quepan citas.
+         * Si a alguno no le cabe más citas, retorna false.
+         * Si el largo del arreglo de citas y de médico y usuario permite ingresar una cita:
+         * Agrega la cita a ese índice y aumenta la cantidad de citas
+         * Si el largo del arreglo no lo permite:
+         * Hay máximo de citas
+         * Input: Instancia de la cita.
+         * Output: Si se encuentra en el array retorna false, si no cumple las validaciones retorna false, si hay espacio retorna true y sino retorna false.
+         */
+        if(buscarCita(cita.getId()) != -1){
+            return false; /*Ya existe la cita */
         }
-        return -1; /*No hay espacio para más citas */
+
+        /* Buscar al paciente y al médico */
+        int indicePaciente = buscarUsuario(cita.getPaciente().getId());
+        int indiceMedico = buscarMedico(cita.getMedico().getId());
+
+        /* Validar que el paciente y el médico existan en el sistema */
+        if (indicePaciente == -1 || indiceMedico == -1) {
+            return false; /* El paciente o el médico no se encontraron en el sistema */
+        }
+
+        Usuario paciente = usuarios[indicePaciente];
+        Medico medico = medicos[indiceMedico];
+
+        /* Validar espacio en el arreglo de citas del usuario */
+        if (paciente.getCantidadCitasUsuario() >= paciente.getCitas().length) {
+            return false; /* El paciente no tiene espacio para más citas */
+        }
+
+        /* Validar espacio en el arreglo de citas del médico */
+        if (medico.getCantidadCitasMedico() >= medico.getCitas().length) {
+            return false; /* El médico no tiene espacio para más citas */
+        }
+
+        /* ACÁ DEBERÍA IR LA VALIDACIÓN DE LA VERIFICACIÓN DE LA DISPONIBILIDAD */
+
+        if(cantidadCitas < citas.length){
+            citas[cantidadCitas] = cita; /*Se encontró espacio para nueva cita */
+            cantidadCitas++;
+
+            /* Agregar la cita al paciente */
+            paciente.getCitas()[paciente.getCantidadCitasUsuario()] = cita;
+            paciente.setCantidadCitasUsuario(paciente.getCantidadCitasUsuario() + 1);
+
+            /* Agregar la cita al médico */
+            medico.getCitas()[medico.getCantidadCitasMedico()] = cita;
+            medico.setCantidadCitasMedico(medico.getCantidadCitasMedico() + 1);
+
+            return true;
+        }
+        return false; /*No hay espacio para más citas */
     }
 
     private void  mostrarCitasGlobal() {
     /*
      * Mostrar todas la citas de forma global.
      * 
-     * Recorre todas las citas y los imprime en el formato:
-     * === Citas Global ===
-     * "1.|Id: |Fecha:  |Hora:  |Paciente:  |Médico:
-     * "2.|Id: |Fecha:  |Hora:  |Paciente:  |Médico:
-     *  .
-     *  .
-     *  .
-     * ======================"
-     * 
+     * Recorre todas las citas y los imprime.
      * Input: Nada.
-     * Output: Si se encuenta retorna -1, si se encuentra null retorna 1 y sino se encuentra retorna -1
+     * Output: Muestra las citas.
      */
-        System.out.println("=== Citas Global ===");
+        System.out.println("\n=== Citas Global ===");
         for (int i = 0; i < cantidadCitas; i++) {
-        System.out.println((i+1) +".|Id:"+ citas[i].getId() +"|Fecha:"+ citas[i].getFecha() +"|Hora:"+ citas[i].getHora() +"|Paciente:"+ citas[i].getPaciente().getNombre() +"|Médico:"+ citas[i].getMedico().getNombre());
+            String citaprint = citas[i].toString();
+            System.out.println("Cita "+(i+1)+": \n"+citaprint);
         }
         System.out.println("======================");
     }
-
-        
 
     public Usuario[] getUsuarios() {
         return usuarios;

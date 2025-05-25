@@ -56,4 +56,14 @@ public class Cita {
     public String getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return  "    ID: " + id +
+                "\n    Fecha: " + fecha +
+                "\n    Hora: " + hora +
+                "\n    Paciente: " + paciente +
+                "\n    Médico: " + medico +
+                "\n";
+    }
 }
