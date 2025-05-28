@@ -23,7 +23,7 @@ public class SistemaAgendamiento {
      * Output: La posición del usuario si fue encontrado; -1 si no se encontró ningún usuario con ese ID.
      */
         for (int i = 0; i < cantidadUsuarios; i++) {
-            if (usuarios[i] != null && Objects.equals(usuarios[i].getId(), idBuscar)) {
+            if (Objects.equals(usuarios[i].getId(), idBuscar)) {
                 return i;
             }
         }
@@ -40,7 +40,7 @@ public class SistemaAgendamiento {
      * Output: La posición del médico si fue encontrado; -1 si no se encontró ningún medico con ese ID.
      */
         for (int i = 0; i < cantidadMedicos; i++) {
-            if (medicos[i] != null && Objects.equals(medicos[i].getId(), idBuscar)) {
+            if (Objects.equals(medicos[i].getId(), idBuscar)) {
                 return i;
             }
         }
@@ -57,7 +57,7 @@ public class SistemaAgendamiento {
      * Output: La posición de la cita si fue encontrada; -1 si no se encontró ninguna cita con ese ID.
      */
         for (int i = 0; i < cantidadCitas; i++) {
-            if (citas[i] != null && Objects.equals(citas[i].getId(), idBuscar)) {
+            if (Objects.equals(citas[i].getId(), idBuscar)) {
                 return i;
             }
         }
@@ -65,26 +65,70 @@ public class SistemaAgendamiento {
     }
 
     private boolean eliminarCita(String idBuscar) {
-    /*
-     * Elimina una cita del arreglo de citas según su ID.
-     *
-     * Busca la posición de la cita con el ID especificado. Si se encuentra:
-     * - Se elimina desplazando todas las citas posteriores una posición a la izquierda.
-     * - La última posición ocupada se establece en null para evitar duplicados.
-     *
-     * Input: idBuscar El ID de la cita que se desea eliminar.
-     * Output: true si la cita fue encontrada y eliminada; false si no se encontró ninguna cita con ese ID.
-     */
-        int posicionEliminar = buscarCita(idBuscar);
-        if (posicionEliminar == -1) {
-            return false;
+        /*
+         * Elimina una cita del arreglo de citas según su ID,
+         * y también la elimina de los arreglos de citas del paciente y del médico.
+         *
+         * Busca la posición de la cita con el ID especificado. Si se encuentra:
+         * - Se elimina de la lista principal de citas.
+         * - Se elimina de la lista de citas del paciente asociado.
+         * - Se elimina de la la lista de citas del médico asociado.
+         * - Las citas posteriores se desplazan a la izquierda para llenar el espacio.
+         *
+         * Input: idBuscar El ID de la cita que se desea eliminar.
+         * Output: true si la cita fue encontrada y eliminada; false si no se encontró ninguna cita con ese ID.
+         */
+        int posicionEliminarCitaPrincipal = buscarCita(idBuscar);
+        if (posicionEliminarCitaPrincipal == -1) {
+            return false; /* La cita no se encontró */
         }
-        for (int i = posicionEliminar; i < (cantidadCitas-1); i++ ){
-                citas[i] = citas[i+1];
+
+        Cita citaAEliminar = citas[posicionEliminarCitaPrincipal];
+
+        /* Eliminar la cita del paciente */
+        Usuario paciente = usuarios[buscarUsuario(citaAEliminar.getPaciente().getId())];
+        int posicionCitaPaciente = -1;
+        for (int i = 0; i < paciente.getCantidadCitasUsuario(); i++) {
+            if (Objects.equals(paciente.getCitas()[i].getId(), idBuscar)) {
+                posicionCitaPaciente = i;
+                break;
             }
-            citas[cantidadCitas-1] = null;
-            cantidadCitas--;
-            return true;
+        }
+
+        if (posicionCitaPaciente != -1) {
+            for (int i = posicionCitaPaciente; i < paciente.getCantidadCitasUsuario() - 1; i++) {
+                paciente.getCitas()[i] = paciente.getCitas()[i + 1];
+            }
+            paciente.getCitas()[paciente.getCantidadCitasUsuario() - 1] = null; /* Limpiar la última posición */
+            paciente.setCantidadCitasUsuario(paciente.getCantidadCitasUsuario() - 1); /* Decrementar la cantidad de citas del paciente */
+        }
+
+        /* Eliminar la cita del médico */
+        Medico medico = medicos[buscarMedico(citaAEliminar.getMedico().getId())];
+        int posicionCitaMedico = -1;
+        for (int i = 0; i < medico.getCantidadCitasMedico(); i++) {
+            if (Objects.equals(medico.getCitas()[i].getId(), idBuscar)) {
+                posicionCitaMedico = i;
+                break;
+            }
+        }
+
+        if (posicionCitaMedico != -1) {
+            for (int i = posicionCitaMedico; i < medico.getCantidadCitasMedico() - 1; i++) {
+                medico.getCitas()[i] = medico.getCitas()[i + 1];
+            }
+            medico.getCitas()[medico.getCantidadCitasMedico() - 1] = null; /* Limpiar la última posición */
+            medico.setCantidadCitasMedico(medico.getCantidadCitasMedico() - 1); /* Decrementar la cantidad de citas del médico */
+        }
+
+        /* Eliminar la cita del arreglo principal de citas */
+        for (int i = posicionEliminarCitaPrincipal; i < (cantidadCitas - 1); i++) {
+            citas[i] = citas[i + 1];
+        }
+        citas[cantidadCitas - 1] = null; /* Limpiar la última posición */
+        cantidadCitas--; /* Decrementar el contador global de citas */
+
+        return true;
     }
 
 
