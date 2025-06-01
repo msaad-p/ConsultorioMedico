@@ -13,7 +13,7 @@ public class SistemaAgendamiento {
     public SistemaAgendamiento() {
     }
 
-    private int buscarUsuario(String idBuscar) {
+    public int buscarUsuario(String idBuscar) {
     /*
      * Retorna la posición de un usuario del arreglo de usuarios según su ID.
      *
@@ -30,7 +30,7 @@ public class SistemaAgendamiento {
         return -1;
     }
 
-    private int buscarMedico(String idBuscar) {
+    public int buscarMedico(String idBuscar) {
     /*
      * Retorna la posición de un médico del arreglo de médicos según su ID.
      *
@@ -47,7 +47,7 @@ public class SistemaAgendamiento {
         return -1;
     }
 
-    private int buscarCita(String idBuscar) {
+    public int buscarCita(String idBuscar) {
     /*
      * Retorna la posición de una cita del arreglo de citas según su ID.
      *
@@ -64,7 +64,7 @@ public class SistemaAgendamiento {
         return -1;
     }
 
-    private boolean eliminarCita(String idBuscar) {
+    public boolean eliminarCita(String idBuscar) {
         /*
          * Elimina una cita del arreglo de citas según su ID,
          * y también la elimina de los arreglos de citas del paciente y del médico.
@@ -132,7 +132,7 @@ public class SistemaAgendamiento {
     }
 
 
-    private boolean agregarUsuario(Usuario usuario) {
+    public boolean agregarUsuario(Usuario usuario) {
     /*
      * Agrega un usuario al arreglo de usuario dado un usuario.
      * 
@@ -158,7 +158,7 @@ public class SistemaAgendamiento {
         return false; /*No hay espacio para más usuarios */
     }
 
-    private boolean agregarMedico(Medico medico) {
+    public boolean agregarMedico(Medico medico) {
     /*
      * Agrega un médico al arreglo de médicos dado un médico.
      * Busca el médico con el ID.
@@ -182,7 +182,7 @@ public class SistemaAgendamiento {
         return false; /*No hay espacio para más médicos */
     }
 
-    private boolean agregarCita(Cita cita) {
+    public boolean agregarCita(Cita cita) {
         /*
          * Agrega una cita al arreglo de citas dado una cita.
          * Busca la cita con el ID.
@@ -225,7 +225,10 @@ public class SistemaAgendamiento {
             return false; /* El médico no tiene espacio para más citas */
         }
 
-        /* ACÁ DEBERÍA IR LA VALIDACIÓN DE LA VERIFICACIÓN DE LA DISPONIBILIDAD */
+        /* Si 'verificarDisponibilidad' retorna 'false', significa que el horario no está disponible. */
+        if (!medico.verificarDisponibilidad(cita.getFecha(), cita.getHora())) {
+            return false; /* El horario solicitado no está disponible para el médico. */
+        }
 
         if(cantidadCitas < citas.length){
             citas[cantidadCitas] = cita; /*Se encontró espacio para nueva cita */
@@ -244,7 +247,7 @@ public class SistemaAgendamiento {
         return false; /*No hay espacio para más citas */
     }
 
-    private void  mostrarCitasGlobal() {
+    public void  mostrarCitasGlobal() {
     /*
      * Mostrar todas la citas de forma global.
      * 

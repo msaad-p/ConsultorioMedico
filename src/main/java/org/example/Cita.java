@@ -18,8 +18,6 @@ public class Cita {
         this.paciente = paciente;
         this.medico = medico;
     }
-
-
     
     public Date getFecha() {
         return fecha;
