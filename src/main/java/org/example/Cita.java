@@ -60,8 +60,8 @@ public class Cita {
         return  "    ID: " + id +
                 "\n    Fecha: " + fecha +
                 "\n    Hora: " + hora +
-                "\n    Paciente: " + paciente +
-                "\n    Médico: " + medico +
+                "\n    Paciente: " + paciente.getNombre() +
+                "\n    Médico: " + medico.getNombre() +
                 "\n";
     }
 }
