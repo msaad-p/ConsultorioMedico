@@ -1,6 +1,7 @@
 package org.example;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -23,16 +24,8 @@ public class Cita {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
     public Time getHora() {
         return hora;
-    }
-
-    public void setHora(Time hora) {
-        this.hora = hora;
     }
 
     public Usuario getPaciente() {
@@ -47,19 +40,18 @@ public class Cita {
         return medico;
     }
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
-    }
-
     public String getId() {
         return id;
     }
 
     @Override
     public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
         return  "    ID: " + id +
-                "\n    Fecha: " + fecha +
-                "\n    Hora: " + hora +
+                "\n    Fecha: " + dateFormat.format(fecha) +
+                "\n    Hora: " + timeFormat.format(hora) +
                 "\n    Paciente: " + paciente.getNombre() +
                 "\n    Médico: " + medico.getNombre() +
                 "\n";

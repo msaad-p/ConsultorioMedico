@@ -13,7 +13,7 @@ public class Main {
         System.out.println("=== Bienvenide al sistema de agendamiento de citas ===\n");
         int opcion = 0;
 
-        while (opcion!=11) {
+        while (opcion!=13) {
             try {
                 System.out.println("""
                         ---
@@ -29,7 +29,9 @@ public class Main {
                                8. Mostrar todas las citas.
                                9. Mostrar citas de un paciente.
                                10. Mostrar citas de un médico.
-                               11. Salir del programa.
+                               11. Mostrar todos los usuarios.
+                               12. Mostrar todos los médicos.
+                               13. Salir del programa.
                         ---
                         """);
                 opcion = in.nextInt();
@@ -42,14 +44,30 @@ public class Main {
                         System.out.println("*Ingrese los datos del usuario:");
                         System.out.print("Nombre: ");
                         String nombreUsuario = in.nextLine();
-                        System.out.print("Número de Identificación: ");
-                        String numIdUsuario = in.nextLine();
-                        System.out.print("Teléfono: ");
-                        String telUsuario = in.nextLine();
+                        long numIdUsuario;
+                        while (true) {
+                            System.out.print("Número de Identificación: ");
+                            try {
+                                numIdUsuario = Long.parseLong(in.nextLine());
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada inválida. Por favor, ingrese un número de identificación válido.");
+                            }
+                        }
+                        long telUsuario;
+                        while (true) {
+                            System.out.print("Teléfono: ");
+                            try {
+                                telUsuario = Long.parseLong(in.nextLine());
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada inválida. Por favor, ingrese un número de teléfono válido.");
+                            }
+                        }
                         System.out.print("Correo Electrónico: ");
                         String emailUsuario = in.nextLine();
 
-                        Usuario nuevoUsuario = new Usuario(nombreUsuario, numIdUsuario, telUsuario, emailUsuario, new Cita[25]);
+                        Usuario nuevoUsuario = new Usuario(nombreUsuario, numIdUsuario, telUsuario, emailUsuario);
                         if (sistema.agregarUsuario(nuevoUsuario)) {
                             System.out.println("Usuario " + nuevoUsuario.getNombre() + " agregado con éxito. ID: " + nuevoUsuario.getId());
                         } else {
@@ -63,14 +81,30 @@ public class Main {
                         System.out.println("*Ingrese los datos del médico:");
                         System.out.print("Nombre: ");
                         String nombreMedico = in.nextLine();
-                        System.out.print("Número de Identificación: ");
-                        String numIdMedico = in.nextLine();
-                        System.out.print("Teléfono: ");
-                        String telMedico = in.nextLine();
+                        long numIdMedico;
+                        while (true) {
+                            System.out.print("Número de Identificación: ");
+                            try {
+                                numIdMedico = Long.parseLong(in.nextLine());
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada inválida. Por favor, ingrese un número de identificación válido.");
+                            }
+                        }
+                        long telMedico;
+                        while (true) {
+                            System.out.print("Teléfono: ");
+                            try {
+                                telMedico = Long.parseLong(in.nextLine());
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada inválida. Por favor, ingrese un número de teléfono válido.");
+                            }
+                        }
                         System.out.print("Correo Electrónico: ");
                         String emailMedico = in.nextLine();
 
-                        Medico nuevoMedico = new Medico(nombreMedico, numIdMedico, telMedico, emailMedico, new Cita[25]);
+                        Medico nuevoMedico = new Medico(nombreMedico, numIdMedico, telMedico, emailMedico);
                         if (sistema.agregarMedico(nuevoMedico)) {
                             System.out.println("Médico " + nuevoMedico.getNombre() + " agregado con éxito. ID: " + nuevoMedico.getId());
                         } else {
@@ -85,13 +119,8 @@ public class Main {
 
                         System.out.print("ID del paciente: ");
                         String idPacienteCita = in.nextLine();
-                        int posPaciente = -1;
-                        for (int i = 0; i < sistema.getCantidadUsuarios(); i++) {
-                            if (sistema.getUsuarios()[i].getId().equals(idPacienteCita)) {
-                                posPaciente = i;
-                                break;
-                            }
-                        }
+                        int posPaciente = sistema.buscarUsuario(idPacienteCita);
+
                         if (posPaciente == -1) {
                             System.out.println("Error: Paciente con ID " + idPacienteCita + " no encontrado.");
                             System.out.println("---\n");
@@ -101,13 +130,8 @@ public class Main {
 
                         System.out.print("ID del médico: ");
                         String idMedicoCita = in.nextLine();
-                        int posMedico = -1;
-                        for (int i = 0; i < sistema.getCantidadMedicos(); i++) {
-                            if (sistema.getMedicos()[i].getId().equals(idMedicoCita)) {
-                                posMedico = i;
-                                break;
-                            }
-                        }
+                        int posMedico = sistema.buscarMedico(idMedicoCita);
+
                         if (posMedico == -1) {
                             System.out.println("Error: Médico con ID " + idMedicoCita + " no encontrado.");
                             System.out.println("---\n");
@@ -120,23 +144,23 @@ public class Main {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-                        System.out.print("Fecha de la cita (dd/MM/yyyy): ");
+                        System.out.print("Fecha de la cita (dd/mm/yyyy): ");
                         String fechaStr = in.nextLine();
                         try {
                             fechaCita = dateFormat.parse(fechaStr);
                         } catch (ParseException e) {
-                            System.out.println("Formato de fecha inválido. Use dd/MM/yyyy.");
+                            System.out.println("Formato de fecha inválido. Use dd/mm/yyyy.");
                             System.out.println("---\n");
                             break;
                         }
 
-                        System.out.print("Hora de la cita (HH:mm): ");
+                        System.out.print("Hora de la cita (hh:mm): ");
                         String horaStr = in.nextLine();
                         try {
                             Date parsedTime = timeFormat.parse(horaStr);
                             horaCita = new Time(parsedTime.getTime());
                         } catch (ParseException e) {
-                            System.out.println("Formato de hora inválido. Use HH:mm.");
+                            System.out.println("Formato de hora inválido. Use hh:mm.");
                             System.out.println("---\n");
                             break;
                         }
@@ -154,25 +178,19 @@ public class Main {
                         System.out.println("Ha ingresado a la opción de --buscar un usuario existente--");
                         System.out.print("Ingrese el ID del usuario a buscar: ");
                         String idBuscarUsuario = in.nextLine();
-                        int posUsuarioEncontrado = -1;
-                        for (int i = 0; i < sistema.getCantidadUsuarios(); i++) {
-                            if (sistema.getUsuarios()[i].getId().equals(idBuscarUsuario)) {
-                                posUsuarioEncontrado = i;
-                                break;
-                            }
-                        }
+                        int posUsuarioEncontrado = sistema.buscarUsuario(idBuscarUsuario);
+
                         if (posUsuarioEncontrado != -1) {
                             Usuario u = sistema.getUsuarios()[posUsuarioEncontrado];
                             System.out.println("Usuario encontrado:");
-                            System.out.println("  ID: " + u.getId());
-                            System.out.println("  Nombre: " + u.getNombre());
-                            System.out.println("  Número de Identificación: " + u.getNumeroIdentificacion());
-                            System.out.println("  Teléfono: " + u.getTelefono());
-                            System.out.println("  Correo Electrónico: " + u.getCorreoElectronico());
+                            System.out.println(u.toString());
                             if (u.getCantidadCitasUsuario() > 0) {
                                 System.out.println("  Citas del usuario:");
                                 for (int i = 0; i < u.getCantidadCitasUsuario(); i++) {
-                                    System.out.println("    - " + u.getCitas()[i].getId() + " - " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(u.getCitas()[i].getFecha()) + " con Dr(a). " + u.getCitas()[i].getMedico().getNombre());
+                                    System.out.println("    - ID Cita: " + u.getCitas()[i].getId() +
+                                            " | Fecha: " + new SimpleDateFormat("dd/MM/yyyy").format(u.getCitas()[i].getFecha()) +
+                                            " | Hora: " + new SimpleDateFormat("HH:mm").format(u.getCitas()[i].getHora()) +
+                                            " | Médico: " + u.getCitas()[i].getMedico().getNombre());
                                 }
                             } else {
                                 System.out.println("  El usuario no tiene citas agendadas.");
@@ -187,25 +205,19 @@ public class Main {
                         System.out.println("Ha ingresado a la opción de --buscar un médico existente--");
                         System.out.print("Ingrese el ID del médico a buscar: ");
                         String idBuscarMedico = in.nextLine();
-                        int posMedicoEncontrado = -1;
-                        for (int i = 0; i < sistema.getCantidadMedicos(); i++) {
-                            if (sistema.getMedicos()[i].getId().equals(idBuscarMedico)) {
-                                posMedicoEncontrado = i;
-                                break;
-                            }
-                        }
+                        int posMedicoEncontrado = sistema.buscarMedico(idBuscarMedico);
+
                         if (posMedicoEncontrado != -1) {
                             Medico m = sistema.getMedicos()[posMedicoEncontrado];
                             System.out.println("Médico encontrado:");
-                            System.out.println("  ID: " + m.getId());
-                            System.out.println("  Nombre: " + m.getNombre());
-                            System.out.println("  Número de Identificación: " + m.getNumeroIdentificacion());
-                            System.out.println("  Teléfono: " + m.getTelefono());
-                            System.out.println("  Correo Electrónico: " + m.getCorreoElectronico());
+                            System.out.println(m.toString());
                             if (m.getCantidadCitasMedico() > 0) {
                                 System.out.println("  Citas del médico:");
                                 for (int i = 0; i < m.getCantidadCitasMedico(); i++) {
-                                    System.out.println("    - " + m.getCitas()[i].getId() + " - " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(m.getCitas()[i].getFecha()) + " con paciente " + m.getCitas()[i].getPaciente().getNombre());
+                                    System.out.println("    - ID Cita: " + m.getCitas()[i].getId() +
+                                            " | Fecha: " + new SimpleDateFormat("dd/MM/yyyy").format(m.getCitas()[i].getFecha()) +
+                                            " | Hora: " + new SimpleDateFormat("HH:mm").format(m.getCitas()[i].getHora()) +
+                                            " | Paciente: " + m.getCitas()[i].getPaciente().getNombre());
                                 }
                             } else {
                                 System.out.println("  El médico no tiene citas agendadas.");
@@ -220,13 +232,8 @@ public class Main {
                         System.out.println("Ha ingresado a la opción de --buscar una cita existente--");
                         System.out.print("Ingrese el ID de la cita a buscar: ");
                         String idBuscarCita = in.nextLine();
-                        int posCitaEncontrada = -1;
-                        for (int i = 0; i < sistema.getCantidadCitas(); i++) {
-                            if (sistema.getCitas()[i].getId().equals(idBuscarCita)) {
-                                posCitaEncontrada = i;
-                                break;
-                            }
-                        }
+                        int posCitaEncontrada = sistema.buscarCita(idBuscarCita);
+
                         if (posCitaEncontrada != -1) {
                             Cita c = sistema.getCitas()[posCitaEncontrada];
                             System.out.println("Cita encontrada:");
@@ -249,31 +256,15 @@ public class Main {
                         System.out.println("---\n");
                         break;
                     case 8:
-                        System.out.println("\n---");
-                        System.out.println("=== Citas Globales ===");
-                        if (sistema.getCantidadCitas() == 0) {
-                            System.out.println("No hay citas agendadas en el sistema.");
-                        } else {
-                            for (int i = 0; i < sistema.getCantidadCitas(); i++) {
-                                String citaprint = sistema.getCitas()[i].toString();
-                                System.out.println("Cita "+(i+1)+": \n"+citaprint);
-                            }
-                        }
-                        System.out.println("======================");
-                        System.out.println("---\n");
+                        sistema.mostrarCitasGlobal();
                         break;
                     case 9:
                         System.out.println("\n---");
                         System.out.println("Ha ingresado a la opción de --mostrar citas de un paciente--");
                         System.out.print("Ingrese el ID del paciente: ");
                         String idPacienteMostrarCitas = in.nextLine();
-                        int posPacienteMostrar = -1;
-                        for (int i = 0; i < sistema.getCantidadUsuarios(); i++) {
-                            if (sistema.getUsuarios()[i].getId().equals(idPacienteMostrarCitas)) {
-                                posPacienteMostrar = i;
-                                break;
-                            }
-                        }
+                        int posPacienteMostrar = sistema.buscarUsuario(idPacienteMostrarCitas);
+
                         if (posPacienteMostrar != -1) {
                             Usuario paciente = sistema.getUsuarios()[posPacienteMostrar];
                             if (paciente.getCantidadCitasUsuario() > 0) {
@@ -295,13 +286,8 @@ public class Main {
                         System.out.println("Ha ingresado a la opción de --mostrar citas de un médico--");
                         System.out.print("Ingrese el ID del médico: ");
                         String idMedicoMostrarCitas = in.nextLine();
-                        int posMedicoMostrar = -1;
-                        for (int i = 0; i < sistema.getCantidadMedicos(); i++) {
-                            if (sistema.getMedicos()[i].getId().equals(idMedicoMostrarCitas)) {
-                                posMedicoMostrar = i;
-                                break;
-                            }
-                        }
+                        int posMedicoMostrar = sistema.buscarMedico(idMedicoMostrarCitas);
+
                         if (posMedicoMostrar != -1) {
                             Medico medico = sistema.getMedicos()[posMedicoMostrar];
                             if (medico.getCantidadCitasMedico() > 0) {
@@ -319,6 +305,12 @@ public class Main {
                         System.out.println("---\n");
                         break;
                     case 11:
+                        sistema.mostrarUsuarios();
+                        break;
+                    case 12:
+                        sistema.mostrarMedicos();
+                        break;
+                    case 13:
                         System.out.println("Gracias por usar el programa. Saliendo ahora.");
                         break;
                     default:
