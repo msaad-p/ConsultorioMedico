@@ -48,20 +48,4 @@ public class Usuario {
                 "\n    Correo Electrónico: " + correoElectronico +
                 "\n";
     }
-
-    public void  mostrarCitas() {
-        /*
-         * Mostrar todas la citas de forma local del usuario.
-         *
-         * Recorre todas las citas y los imprime.
-         * Input: Nada.
-         * Output: Muestra las citas.
-         */
-        System.out.println("\n=== Citas de "+nombre+" ===");
-        for (int i = 0; i < cantidadCitasUsuario; i++) {
-            String citaprint = citas[i].toString();
-            System.out.println("Cita "+(i+1)+": \n"+citaprint);
-        }
-        System.out.println("======================");
-    }
 }
