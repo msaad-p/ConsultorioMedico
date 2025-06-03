@@ -32,10 +32,6 @@ public class Cita {
         return paciente;
     }
 
-    public void setPaciente(Usuario paciente) {
-        this.paciente = paciente;
-    }
-
     public Medico getMedico() {
         return medico;
     }
