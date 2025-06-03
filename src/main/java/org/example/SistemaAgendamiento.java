@@ -301,16 +301,4 @@ public class SistemaAgendamiento {
     public Cita[] getCitas() {
         return citas;
     }
-
-    public int getCantidadUsuarios() {
-        return cantidadUsuarios;
-    }
-
-    public int getCantidadMedicos() {
-        return cantidadMedicos;
-    }
-
-    public int getCantidadCitas() {
-        return cantidadCitas;
-    }
 }
