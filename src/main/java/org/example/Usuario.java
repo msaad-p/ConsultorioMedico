@@ -49,7 +49,7 @@ public class Usuario {
                 "\n";
     }
 
-    private void  mostrarCitas() {
+    public void  mostrarCitas() {
         /*
          * Mostrar todas la citas de forma local del usuario.
          *
@@ -57,7 +57,7 @@ public class Usuario {
          * Input: Nada.
          * Output: Muestra las citas.
          */
-        System.out.println("\n=== Citas del paciente "+nombre+" ===");
+        System.out.println("\n=== Citas de "+nombre+" ===");
         for (int i = 0; i < cantidadCitasUsuario; i++) {
             String citaprint = citas[i].toString();
             System.out.println("Cita "+(i+1)+": \n"+citaprint);

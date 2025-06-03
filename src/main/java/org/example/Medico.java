@@ -21,21 +21,6 @@ public class Medico extends Usuario {
         this.cantidadCitasMedico = cantidadCitasMedico;
     }
 
-    private void  mostrarCitas() {
-        /*
-         * Muestra todas las citas de forma local del médico.
-         * Recorre todas las citas y las imprime.
-         * Input: Nada.
-         * Output: Muestra las citas.
-         */
-        System.out.println("\n=== Citas del médico "+getNombre()+" ===");
-        for (int i = 0; i < cantidadCitasMedico; i++) {
-            String citaprint = citas[i].toString();
-            System.out.println("Cita "+(i+1)+": \n"+citaprint);
-        }
-        System.out.println("======================");
-    }
-
     public boolean verificarDisponibilidad(Date fecha, Time hora) {
         /*
          * Verifica si un horario específico (fecha y hora) se superpone con alguna de las citas existentes de un médico.

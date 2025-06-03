@@ -268,11 +268,7 @@ public class Main {
                         if (posPacienteMostrar != -1) {
                             Usuario paciente = sistema.getUsuarios()[posPacienteMostrar];
                             if (paciente.getCantidadCitasUsuario() > 0) {
-                                System.out.println("\n=== Citas del paciente " + paciente.getNombre() + " ===");
-                                for (int i = 0; i < paciente.getCantidadCitasUsuario(); i++) {
-                                    System.out.println("Cita " + (i+1) + ": \n" + paciente.getCitas()[i].toString());
-                                }
-                                System.out.println("======================");
+                                paciente.mostrarCitas();
                             } else {
                                 System.out.println("El paciente " + paciente.getNombre() + " no tiene citas agendadas.");
                             }
@@ -291,11 +287,7 @@ public class Main {
                         if (posMedicoMostrar != -1) {
                             Medico medico = sistema.getMedicos()[posMedicoMostrar];
                             if (medico.getCantidadCitasMedico() > 0) {
-                                System.out.println("\n=== Citas del médico " + medico.getNombre() + " ===");
-                                for (int i = 0; i < medico.getCantidadCitasMedico(); i++) {
-                                    System.out.println("Cita " + (i+1) + ": \n" + medico.getCitas()[i].toString());
-                                }
-                                System.out.println("======================");
+                                medico.mostrarCitas();
                             } else {
                                 System.out.println("El médico " + medico.getNombre() + " no tiene citas agendadas.");
                             }
