@@ -7,9 +7,57 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws ParseException {
         Scanner in = new Scanner(System.in);
         SistemaAgendamiento sistema = new SistemaAgendamiento();
+
+        Usuario usuario1 = new Usuario("Carlos Reza", 10854254785L, 3001112233L, "carlos.reza@gmail.com");
+        Usuario usuario2 = new Usuario("David Blásquez", 10921345678L, 3104445566L, "david.blasquez@gmail.com");
+        Usuario usuario3 = new Usuario("Marco Paluszny", 10769876543L, 3207778899L, "marco.paluszny@gmail.com");
+        Usuario usuario4 = new Usuario("Leopoldo Múnera", 10501234567L, 3012223344L, "leopoldo.munera@gmail.com");
+        Usuario usuario5 = new Usuario("Jhon Fredy Ruiz", 10112233445L, 3159990011L, "jhon.ruiz@gmail.com");
+
+        sistema.agregarUsuario(usuario1);
+        sistema.agregarUsuario(usuario2);
+        sistema.agregarUsuario(usuario3);
+        sistema.agregarUsuario(usuario4);
+        sistema.agregarUsuario(usuario5);
+
+        Medico medico1 = new Medico("Dr. Carlos Vélez", 11001122334L, 3009876543L, "carlos.velez@gmail.com");
+        Medico medico2 = new Medico("Dra. Juan Diego Caicedo", 11112233445L, 3108765432L, "juan.caicedo@gmail.com");
+        Medico medico3 = new Medico("Dr. Daniele Sepe", 11223344556L, 3207654321L, "daniele.sepe@gmail.com");
+        Medico medico4 = new Medico("Dra. Bibiana López", 11334455667L, 3016543210L, "bibiana.lopez@gmail.com");
+        Medico medico5 = new Medico("Dr. Daniel Cabarcas", 11445566778L, 3155432109L, "daniel.cabarcas@gmail.com");
+
+        sistema.agregarMedico(medico1);
+        sistema.agregarMedico(medico2);
+        sistema.agregarMedico(medico3);
+        sistema.agregarMedico(medico4);
+        sistema.agregarMedico(medico5);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+        Date fechaCita1 = dateFormat.parse("15/07/2025");
+        Time horaCita1 = new Time(timeFormat.parse("09:00").getTime());
+        sistema.agregarCita(new Cita(fechaCita1, horaCita1, usuario1, medico1));
+
+        Date fechaCita2 = dateFormat.parse("15/07/2025");
+        Time horaCita2 = new Time(timeFormat.parse("10:00").getTime());
+        sistema.agregarCita(new Cita(fechaCita2, horaCita2, usuario2, medico2));
+
+        Date fechaCita3 = dateFormat.parse("16/07/2025");
+        Time horaCita3 = new Time(timeFormat.parse("11:00").getTime());
+        sistema.agregarCita(new Cita(fechaCita3, horaCita3, usuario3, medico3));
+
+        Date fechaCita4 = dateFormat.parse("16/07/2025");
+        Time horaCita4 = new Time(timeFormat.parse("14:00").getTime());
+        sistema.agregarCita(new Cita(fechaCita4, horaCita4, usuario4, medico4));
+
+        Date fechaCita5 = dateFormat.parse("17/07/2025");
+        Time horaCita5 = new Time(timeFormat.parse("15:00").getTime());
+        sistema.agregarCita(new Cita(fechaCita5, horaCita5, usuario5, medico5));
+
         System.out.println("=== Bienvenide al sistema de agendamiento de citas ===\n");
         int opcion = 0;
 
@@ -140,9 +188,7 @@ public class Main {
                         Medico medicoCita = sistema.getMedicos()[posMedico];
 
                         Date fechaCita = null;
-                        Time horaCita = null;
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                        Time horaCita = null;;
 
                         System.out.print("Fecha de la cita (dd/mm/yyyy): ");
                         String fechaStr = in.nextLine();
