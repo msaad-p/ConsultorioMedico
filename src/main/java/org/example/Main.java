@@ -297,9 +297,9 @@ public class Main {
                             Medico m = sistema.getMedicos()[posMedicoEncontrado];
                             System.out.println("Médico encontrado:");
                             System.out.println(m.toString());
-                            if (m.getCantidadCitasMedico() > 0) {
+                            if (m.getCantidadCitasUsuario() > 0) {
                                 System.out.println("  Citas del médico:");
-                                for (int i = 0; i < m.getCantidadCitasMedico(); i++) {
+                                for (int i = 0; i < m.getCantidadCitasUsuario(); i++) {
                                     System.out.println("    - ID Cita: " + m.getCitas()[i].getId() +
                                             " | Fecha: " + new SimpleDateFormat("dd/MM/yyyy").format(m.getCitas()[i].getFecha()) +
                                             " | Hora: " + new SimpleDateFormat("HH:mm").format(m.getCitas()[i].getHora()) +
@@ -376,9 +376,9 @@ public class Main {
 
                         if (posMedicoMostrar != -1) {
                             Medico medico = sistema.getMedicos()[posMedicoMostrar];
-                            if (medico.getCantidadCitasMedico() > 0) {
+                            if (medico.getCantidadCitasUsuario() > 0) {
                                 System.out.println("\n=== Citas del médico " + medico.getNombre() + " ===");
-                                for (int i = 0; i < medico.getCantidadCitasMedico(); i++) {
+                                for (int i = 0; i < medico.getCantidadCitasUsuario(); i++) {
                                     System.out.println("Cita " + (i+1) + ": \n" + medico.getCitas()[i].toString());
                                 }
                                 System.out.println("======================");
