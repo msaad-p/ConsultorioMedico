@@ -38,25 +38,65 @@ public class Main {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-        Date fechaCita1 = dateFormat.parse("15/07/2025");
-        Time horaCita1 = new Time(timeFormat.parse("09:00").getTime());
-        sistema.agregarCita(new Cita(fechaCita1, horaCita1, usuario1, medico1));
+        Date fechaCitaM1_1 = dateFormat.parse("15/07/2025");
+        Time horaCitaM1_1 = new Time(timeFormat.parse("09:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM1_1, horaCitaM1_1, usuario1, medico1));
 
-        Date fechaCita2 = dateFormat.parse("15/07/2025");
-        Time horaCita2 = new Time(timeFormat.parse("10:00").getTime());
-        sistema.agregarCita(new Cita(fechaCita2, horaCita2, usuario2, medico2));
+        Date fechaCitaM1_2 = dateFormat.parse("15/07/2025");
+        Time horaCitaM1_2 = new Time(timeFormat.parse("10:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM1_2, horaCitaM1_2, usuario2, medico1));
 
-        Date fechaCita3 = dateFormat.parse("16/07/2025");
-        Time horaCita3 = new Time(timeFormat.parse("11:00").getTime());
-        sistema.agregarCita(new Cita(fechaCita3, horaCita3, usuario3, medico3));
+        Date fechaCitaM1_3 = dateFormat.parse("15/07/2025");
+        Time horaCitaM1_3 = new Time(timeFormat.parse("11:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM1_3, horaCitaM1_3, usuario3, medico1));
 
-        Date fechaCita4 = dateFormat.parse("16/07/2025");
-        Time horaCita4 = new Time(timeFormat.parse("14:00").getTime());
-        sistema.agregarCita(new Cita(fechaCita4, horaCita4, usuario4, medico4));
+        Date fechaCitaM2_1 = dateFormat.parse("15/07/2025");
+        Time horaCitaM2_1 = new Time(timeFormat.parse("13:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM2_1, horaCitaM2_1, usuario4, medico2));
 
-        Date fechaCita5 = dateFormat.parse("17/07/2025");
-        Time horaCita5 = new Time(timeFormat.parse("15:00").getTime());
-        sistema.agregarCita(new Cita(fechaCita5, horaCita5, usuario5, medico5));
+        Date fechaCitaM2_2 = dateFormat.parse("15/07/2025");
+        Time horaCitaM2_2 = new Time(timeFormat.parse("14:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM2_2, horaCitaM2_2, usuario5, medico2));
+
+        Date fechaCitaM2_3 = dateFormat.parse("15/07/2025");
+        Time horaCitaM2_3 = new Time(timeFormat.parse("15:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM2_3, horaCitaM2_3, usuario1, medico2));
+
+        Date fechaCitaM3_1 = dateFormat.parse("16/07/2025");
+        Time horaCitaM3_1 = new Time(timeFormat.parse("09:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM3_1, horaCitaM3_1, usuario2, medico3));
+
+        Date fechaCitaM3_2 = dateFormat.parse("16/07/2025");
+        Time horaCitaM3_2 = new Time(timeFormat.parse("10:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM3_2, horaCitaM3_2, usuario3, medico3));
+
+        Date fechaCitaM3_3 = dateFormat.parse("16/07/2025");
+        Time horaCitaM3_3 = new Time(timeFormat.parse("11:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM3_3, horaCitaM3_3, usuario4, medico3));
+
+        Date fechaCitaM4_1 = dateFormat.parse("16/07/2025");
+        Time horaCitaM4_1 = new Time(timeFormat.parse("14:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM4_1, horaCitaM4_1, usuario5, medico4));
+
+        Date fechaCitaM4_2 = dateFormat.parse("16/07/2025");
+        Time horaCitaM4_2 = new Time(timeFormat.parse("15:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM4_2, horaCitaM4_2, usuario1, medico4));
+
+        Date fechaCitaM4_3 = dateFormat.parse("16/07/2025");
+        Time horaCitaM4_3 = new Time(timeFormat.parse("16:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM4_3, horaCitaM4_3, usuario2, medico4));
+
+        Date fechaCitaM5_1 = dateFormat.parse("17/07/2025");
+        Time horaCitaM5_1 = new Time(timeFormat.parse("09:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM5_1, horaCitaM5_1, usuario3, medico5));
+
+        Date fechaCitaM5_2 = dateFormat.parse("17/07/2025");
+        Time horaCitaM5_2 = new Time(timeFormat.parse("10:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM5_2, horaCitaM5_2, usuario4, medico5));
+
+        Date fechaCitaM5_3 = dateFormat.parse("17/07/2025");
+        Time horaCitaM5_3 = new Time(timeFormat.parse("11:00").getTime());
+        sistema.agregarCita(new Cita(fechaCitaM5_3, horaCitaM5_3, usuario5, medico5));
 
         System.out.println("=== Bienvenide al sistema de agendamiento de citas ===\n");
         int opcion = 0;
