@@ -106,7 +106,7 @@ public class SistemaAgendamiento {
         /* Eliminar la cita del médico */
         Medico medico = medicos[buscarMedico(citaAEliminar.getMedico().getId())];
         int posicionCitaMedico = -1;
-        for (int i = 0; i < medico.getCantidadCitasMedico(); i++) {
+        for (int i = 0; i < medico.getCantidadCitasUsuario(); i++) {
             if (Objects.equals(medico.getCitas()[i].getId(), idBuscar)) {
                 posicionCitaMedico = i;
                 break;
@@ -114,11 +114,11 @@ public class SistemaAgendamiento {
         }
 
         if (posicionCitaMedico != -1) {
-            for (int i = posicionCitaMedico; i < medico.getCantidadCitasMedico() - 1; i++) {
+            for (int i = posicionCitaMedico; i < medico.getCantidadCitasUsuario() - 1; i++) {
                 medico.getCitas()[i] = medico.getCitas()[i + 1];
             }
-            medico.getCitas()[medico.getCantidadCitasMedico() - 1] = null; /* Limpiar la última posición */
-            medico.setCantidadCitasMedico(medico.getCantidadCitasMedico() - 1); /* Decrementar la cantidad de citas del médico */
+            medico.getCitas()[medico.getCantidadCitasUsuario() - 1] = null; /* Limpiar la última posición */
+            medico.setCantidadCitasUsuario(medico.getCantidadCitasUsuario() - 1); /* Decrementar la cantidad de citas del médico */
         }
 
         /* Eliminar la cita del arreglo principal de citas */
@@ -220,14 +220,20 @@ public class SistemaAgendamiento {
         }
 
         /* Validar espacio en el arreglo de citas del médico */
-        if (medico.getCantidadCitasMedico() >= medico.getCitas().length) {
+        if (medico.getCantidadCitasUsuario() >= medico.getCitas().length) {
             return false; /* El médico no tiene espacio para más citas */
         }
 
-        /* Si 'verificarDisponibilidad' retorna 'false', significa que el horario no está disponible. */
+        /* Si 'verificarDisponibilidad' retorna 'false', significa que el horario no está disponible.
+         * Ahora se verifica la disponibilidad tanto del paciente como del médico. */
+        if (!paciente.verificarDisponibilidad(cita.getFecha(), cita.getHora())) {
+            return false; /* El horario solicitado no está disponible para el paciente. */
+        }
+
         if (!medico.verificarDisponibilidad(cita.getFecha(), cita.getHora())) {
             return false; /* El horario solicitado no está disponible para el médico. */
         }
+
 
         if(cantidadCitas < citas.length){
             citas[cantidadCitas] = cita; /*Se encontró espacio para nueva cita */
@@ -238,8 +244,8 @@ public class SistemaAgendamiento {
             paciente.setCantidadCitasUsuario(paciente.getCantidadCitasUsuario() + 1);
 
             /* Agregar la cita al médico */
-            medico.getCitas()[medico.getCantidadCitasMedico()] = cita;
-            medico.setCantidadCitasMedico(medico.getCantidadCitasMedico() + 1);
+            medico.getCitas()[medico.getCantidadCitasUsuario()] = cita;
+            medico.setCantidadCitasUsuario(medico.getCantidadCitasUsuario() + 1);
 
             return true;
         }
